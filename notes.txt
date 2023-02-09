@@ -5,9 +5,14 @@ Users (id, pseudo, mdp, discussions : [idDiscussions])
 Discussions (isd, users : [idUsers], messages : [idMessages])
 Messages (id, idSender, temps)
 
+    CREER LA BASE :
+    Se connecter au serveur
+    use chat
+
     INSERT DATA :
     db.users.insert({pseudo: "---", mdp: "---", discussions: []})  
-    db.discussions.insert({messages: [], users:[ObjectId("---")]})
+    db.discussions.insert({messages: [ObjectId("---")], users:[ObjectId("---")]})
     db.messages.insert({sender : ObjectId("---"), temps : Date(), corps : "---"})
 
     
+
