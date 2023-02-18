@@ -12,6 +12,8 @@ const mongoose = require("mongoose")
 // PARTIE SERVEUR
 
 const apiRouter = require("./routes/api")
+const viewRouter = require("./routes/views")
+
 
 const app = express();
 
@@ -20,6 +22,11 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
+app.set('view engine', 'ejs')
+
+app.use(express.static(__dirname + '/public'));
+
 
 // Crée un serveur HTTP
 const server = http.createServer(app);
@@ -37,7 +44,8 @@ server.on('error', function (error) {
     console.error(error);
 });
 
-app.use("/", apiRouter)
+app.use("/api", apiRouter)
+app.use("/", viewRouter)
 
 // PARTIE MONGO
 

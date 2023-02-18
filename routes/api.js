@@ -24,7 +24,7 @@ apiRouter.post('/user', async (req, res) => {
 * Récupère un utilisateur par rapport à son id
 */
 apiRouter.get('/user/:userId', async (req, res) => {
-  res.json(await users.readUser(req.params.userId));
+  res.json(await users.findUser(req.params.userId));
 });
 
 /**
@@ -45,7 +45,7 @@ apiRouter.delete('/user/:userId', async (req, res) => {
 * Récupère tous les utilisateurs
 */
 apiRouter.get('/users', async (req, res) => {
-  res.json(await users.readAllUsers());
+  res.json(await users.getAllUsers());
 });
 
 

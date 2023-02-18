@@ -39,8 +39,26 @@ async function createUser(userParam) {
  * @param userId L'identifiant de l'utilisateur à lire
  * @returns L'utilisateur trouvé
  */
-async function readUser(userId) {
+async function findUser(userId) {
+    // On essaye de trouver l'utilisateur
+    try {
 
+        // On veut chercher un object dans la collection "User" par son identifiant MongoDB
+        const userFound = await models.User.findById(userId);
+
+        // Si l'utilisateur trouvé est null c'est qu'il n'existe pas dans la base de données
+        if (userFound === null) {
+            return "L'utilisateur n'existe pas"
+        }
+
+        // Sinon c'est qu'il existe et on le renvoie
+        return userFound;
+    }
+
+        // S'il y a une erreur, on envoie un message à l'utilisateur
+    catch (e) {
+        return "Erreur lors de la recherche de l'utilisateur";
+    }
 }
 
 /**
@@ -65,23 +83,22 @@ async function deleteUser(userId) {
 /**
  * Récupère TOUS les utilisateurs depuis la base de données
  */
-async function readAllUsers() {
+async function getAllUsers() {
+    // On essaye de récupérer TOUS les utilisateurs (donc on ne met pas de conditions lors de la recherche, juste un object vide)
+    try {
+        return await models.User.find({})
+    }
 
+        // S'il y a une erreur, on renvoie un message
+    catch (e) {
+        return "Il y a eu une erreur lors de la recuperation des utilisateurs";
+    }
 }
 
 // On exporte les modules
 
-/*
-module.exports = {
-    createUser: createUser,
-    readUser: readUser,
-    updateUser: updateUser,
-    deleteUser: deleteUser,
-    readAllUsers: readAllUsers
-}*/
-
 module.exports.createUser = createUser;
-module.exports.readUser = readUser;
+module.exports.findUser = findUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
-module.exports.readAllUsers = readAllUsers;
+module.exports.getAllUsers = getAllUsers;
