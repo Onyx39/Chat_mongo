@@ -9,14 +9,10 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <body>
-  
     <%- include('partials/header') %>
 
-    <a href="http://localhost:3000/inscription">Inscription</a>
-
-
     <div class="log_box">
-      <h2>Connexion</h2>
+      <h2>Inscription</h2>
       <div>
           <label for="pseudo">Pseudo</label>
           <br />
@@ -27,15 +23,33 @@
           <input type="password" id="pass">
       </div>
       <br />
-      <div class="connexion_button">
+      <div class="inscription_button">
           <button onclick="createUser()" type="button">Click Me!</button>
       </div>
     </div>
-      
-  
-    <%- include('partials/footer') %>  
 
+    <%- include('partials/footer') %>
+    
   </body>
 </html>
 
 <script src="js/client.js"></script>
+
+<script>
+      function createUser() {
+        // On récupère les données de l'utilisateur à créer
+        var pseudo = document.getElementById("pseudo").value;
+        var pass = document.getElementById("pass").value;
+
+        axios.post("http://localhost:3000/api/user", { pseudo: pseudo, pass: pass}).then(function (response) {
+            
+
+            if (response.data === "Votre compte a été créé !") {
+                window.location.replace('http://localhost:3000/');
+            }
+            else {
+                alert(response.data);
+            }
+        }).catch((err) => console.log(err));
+    }
+</script>
