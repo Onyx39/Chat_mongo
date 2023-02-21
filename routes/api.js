@@ -1,5 +1,7 @@
 const express = require("express")
 const users = require("../controllers/users")
+const session = require("../controllers/session");
+var {sess} = require('../server.js');
 
 const apiRouter = express.Router();
 
@@ -48,6 +50,31 @@ apiRouter.get('/users', async (req, res) => {
   res.json(await users.getAllUsers());
 });
 
+apiRouter.get('/session', async (req, res) => {
+  
+  if(req.session === undefined)
+  {
+    res.send("Pas de session !")
+  }else{
+    res.send(req.session)
+  }
+
+})
+
+apiRouter.post('/connect', async (req, res) => {
+
+  var isUserFound = await users.isThisUserExist(req.body[0], req.body[1])
+
+  if(isUserFound > 0)
+  {
+    sess = req.session
+    sess.identifiant = req.body[0];
+    res.json(sess);
+  }else{
+    res.json("AAAAAAAAAA")
+  }
+
+})
 
 
 module.exports = apiRouter;

@@ -34,12 +34,18 @@ async function createUser(userParam) {
     }
 }
 
+
+async function isThisUserExist(userPseudo, userPass){
+
+    return await models.User.find({pseudo: userPseudo, pass: userPass}).count();
+}
+
 /**
  * Lire un utilisateur par son id unique créé par MongoDB
  * @param userId L'identifiant de l'utilisateur à lire
  * @returns L'utilisateur trouvé
  */
-async function findUser(userId) {
+async function findUserID(userId) {
     // On essaye de trouver l'utilisateur
     try {
 
@@ -98,7 +104,8 @@ async function getAllUsers() {
 // On exporte les modules
 
 module.exports.createUser = createUser;
-module.exports.findUser = findUser;
+module.exports.findUserID = findUserID;
+module.exports.isThisUserExist = isThisUserExist;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
 module.exports.getAllUsers = getAllUsers;
