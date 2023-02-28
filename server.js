@@ -47,8 +47,7 @@ server.on('error', function (error) {
     console.error(error);
 });
 
-app.use("/api", apiRouter)
-app.use("/", viewRouter)
+
 
 // PARTIE MONGO
 
@@ -156,3 +155,8 @@ server.on('connection', (socket) => {
     console.log('Client déconnecté');
   });
 });*/
+
+// Routers uses
+
+app.use("/api", apiRouter)
+app.use("/", viewRouter)
