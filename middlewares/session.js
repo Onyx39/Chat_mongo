@@ -16,6 +16,16 @@ async function printSession(req, res, next) {
     next();
 }
 
+async function isConnected(req, res, next){
+    if(req.session.pseudo !== undefined)
+    {
+        return true
+    }else{
+        return false
+    }
+}
+
 module.exports = {
-    printSession: printSession
+    printSession: printSession,
+    isConnected: isConnected
 }

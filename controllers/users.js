@@ -36,7 +36,7 @@ async function createUser(userParam) {
 
 
 async function isThisUserExist(userPseudo, userPass){
-
+    console.log(userPseudo)
     return await models.User.find({pseudo: userPseudo, pass: userPass}).count();
 }
 

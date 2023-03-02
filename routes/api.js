@@ -1,7 +1,7 @@
 const express = require("express")
-const users = require("../controllers/users")
-const session = require("../controllers/session");
-var {sess} = require('../server.js');
+const users = require("../controllers/users");
+const session = require("../middlewares/session");
+//var {sess} = require('../server.js');
 
 const apiRouter = express.Router();
 
@@ -51,27 +51,47 @@ apiRouter.get('/users', async (req, res) => {
 });
 
 apiRouter.get('/session', async (req, res) => {
+
+  result = await session.isConnected(req);
   
-  if(req.session === undefined)
+  if(result)
   {
-    res.send("Pas de session !")
+    res.json("ok")
   }else{
-    res.send(req.session)
+    
+    res.json("Pas de session !")
   }
 
 })
 
+/**
+ * Détruis la session
+ */
+apiRouter.delete('/session', (req, res) => {
+
+  // S'il n'y a pas de session, on renvoie un message
+  if (req.session === undefined) {
+      res.json("Il n'y a pas de session à détuire")
+  }
+
+  // Si elle est existe alors on peut la détruire
+  else {
+      req.session.destroy()
+      res.json("La session a été détruite !");
+  }
+});
+
 apiRouter.post('/connect', async (req, res) => {
 
-  var isUserFound = await users.isThisUserExist(req.body[0], req.body[1])
+  var isUserFound = await users.isThisUserExist(req.body.pseudo, req.body.pass)
 
   if(isUserFound > 0)
   {
-    sess = req.session
-    sess.identifiant = req.body[0];
-    res.json(sess);
+    req.session.pseudo = req.body.pseudo;
+    res.json("ok");
   }else{
-    res.json("AAAAAAAAAA")
+    req.session.destroy()
+    res.json("Impossible de se connecter !")
   }
 
 })

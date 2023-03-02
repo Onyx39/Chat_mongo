@@ -1,3 +1,39 @@
 <footer>
+    <button id="disconnectButton" onclick='disconnect()' type="button">Se déconnecter</button>
     <p><center>©Copyright 2023 bt RISS Ryan and RICHARD Valentin. All rights reversed.</center></p>
 </footer>
+
+
+<script>
+
+        isConnected();
+        
+        function disconnect(){
+            alert("deconnexion");
+            axios.delete("http://localhost:3000/api/session").then(function (response) {
+        
+                alert(response.data);
+                window.location.replace('http://localhost:3000/');
+        }).catch((err) => console.log(err));
+
+        }
+
+        function isConnected(){
+
+        axios.get("http://localhost:3000/api/session").then(function (response) {
+        
+            button = document.getElementById('disconnectButton')
+
+            if (response.data === "ok") { // est connecté
+                button.style.visibility = 'visible';
+                console.log("conecté")
+            }
+            else { // ne l'est pas
+                button.style.visibility = 'hidden';
+                console.log("déconnecté")
+            }
+
+    }).catch((err) => console.log(err));
+
+}
+</script>

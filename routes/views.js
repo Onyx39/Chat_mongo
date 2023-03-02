@@ -11,4 +11,8 @@ viewRouter.get('/inscription', function(req, res){
     res.render('inscription')
 })
 
+viewRouter.get('/chat', function(req, res){
+    res.render('chat')
+})
+
 module.exports = viewRouter
