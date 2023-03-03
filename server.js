@@ -15,9 +15,6 @@ const connectRedis = require("connect-redis");
 const apiRouter = require("./routes/api")
 const viewRouter = require("./routes/views")
 
-//On crée la variable qui servira a stocker la session actuelle
-var sess = null;
-
 const app = express();
 
 // On configure le server

@@ -27,7 +27,7 @@ async function createMessage(messageParam) {
     }
     else
     {
-        return "BABIDJI"
+        return "Pas d'utilisateur à ce nom"
     }
 
 }
