@@ -65,6 +65,12 @@ apiRouter.get('/session', async (req, res) => {
 
 })
 
+apiRouter.get('/getPseudo', async (req, res) => {
+  console.log(req.session.pseudo)
+  res.json(req.session.pseudo);
+})
+
+
 /**
  * Détruis la session
  */

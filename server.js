@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 
 const express = require("express");
 const http = require("http")
+var cookie = require('cookie');
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
@@ -149,21 +150,39 @@ app.use("/", viewRouter)
 
 const message = require("./controllers/message");
 
-const wsServer = new WebSocket.Server({ port: 4420 });
+const wsServer = new WebSocket.Server({ port: 4420 })
 
-wsServer.on('connection', async (socket) => {
-  console.log('Client connecté');
-  const allMessage = await message.getallMessage();
-  const jsonData = JSON.stringify(allMessage);
-  socket.send(jsonData)
+wsServer.on('connection', async (socket, req) => {
 
-  socket.on('message', (message) => {
-    console.log(`Message reçu du client : ${message}`);
-    
+  // recevoir tous les messages
+    const allMessage = await message.getallMessage();
+    const jsonData = JSON.stringify(allMessage);
+    socket.send(jsonData);
+
+    socket.on('message', async (mess) => {
+    console.log(`Message reçu du client : ${mess}`);
+
+    //enregistrer
+
+    const messageJSON = JSON.parse(mess)
+
+    const responseCreation = await message.createMessage(messageJSON);
+
+    console.log(responseCreation);
+
+    // recevoir tous les messages
+    const allMessage = await message.getallMessage();
+    const jsonData = JSON.stringify(allMessage);
+    // Envoyer un message à tous les sockets
+    wsServer.clients.forEach(function (client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(jsonData);
+    }
+    });
   });
-
   socket.on('close', () => {
     console.log('Client déconnecté');
   });
+
 });
 

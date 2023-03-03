@@ -1,14 +1,14 @@
 /**
  * On print dans la console ce qui se trouve dans la session de l'utilisateur
  */
-async function printSession(req, res, next) {
+async function getSession(req, res, next) {
 
     // On log la session (de manière formatée)
-    if(req.session === undefined)
+    if(req.session.pseudo === undefined)
     {
-        console.log("Pas de session !")
+        res.json("Pas de session !")
     }else{
-        console.table(req.session)
+        res.json(req.session)
     }
     
 
@@ -26,6 +26,6 @@ async function isConnected(req, res, next){
 }
 
 module.exports = {
-    printSession: printSession,
+    getSession: getSession,
     isConnected: isConnected
 }
