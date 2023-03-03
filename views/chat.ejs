@@ -19,8 +19,12 @@
           <input id="mess">
       </div>
       <div class="mess_button">
-          <button onclick="" type="button">Envoyer</button>
+          <button id="buttonMessage" onclick="" type="button">Envoyer</button>
       </div>
+    </div>
+
+    <div id ="messages">
+    
     </div>
       
   
@@ -29,25 +33,48 @@
   </body>
 </html>
 
-<!-- <script src="js/client.js"></script> -->
-
 <script>
 
 const socket = new WebSocket("ws://localhost:4420");
-//const form = document.querySelector("form");
-//const messageInput = document.getElementById("message");
+const buttonMessage = document.getElementById("buttonMessage");
+const messagesDiv = document.getElementById("messages")
 
-/*
 socket.onopen = function(event) {
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    socket.send(messageInput.value);
-  });
-};*/
+
+  buttonMessage.addEventListener('click', async function(event) {
+
+    const messageInput = document.getElementById("mess").value;
+
+    let text = '{ "pseudo" : "' + pseudo +
+    '","message" : "'  + messageInput + '"}';
+
+      socket.send(text);
+      console.log(text)
+    });
+};
 
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   console.log(data);
+
+  let messagesArray = []
+
+  for (const i in data){
+
+    let pseudoMessage = data[i]['pseudo']
+    let receivedMessage = data[i]['message']
+    let dateMessage = data[i]['createdAt']
+
+    messagesArray.push("<p>" + pseudoMessage + " : " + receivedMessage + " le " + dateMessage + "</p><br/>")
+  }
+
+  let messages = "";
+
+  for (var i = messagesArray.length - 1; i >= 0; i--) {
+    messages += messagesArray[i]
+  }
+
+  messagesDiv.innerHTML = messages;
 };
 
 
@@ -55,23 +82,4 @@ socket.onclose = function(event) {
   console.log("Connection closed with code: " + event.code);
 };
 
-</script>
-
-<script>
-  function connect() {
-    // On récupère les données de l'utilisateur à créer
-    var pseudo = document.getElementById("pseudo").value;
-    var pass = document.getElementById("pass").value;
-
-    axios.post("http://localhost:3000/api/connect", { pseudo: pseudo, pass: pass}).then(function (response) {
-        
-
-        if (response.data === "ok") {
-            window.location.replace('http://localhost:3000/chat');
-        }
-        else {
-            alert(response.data);
-        }
-    }).catch((err) => console.log(err));
-}
 </script>

@@ -32,3 +32,23 @@ h1{
     display: flex;
 }
 
+#profileDiv{
+    margin: auto;
+    width: 30%;
+    text-align: center;
+    padding: 0%;
+}
+
+#pseudoP{
+    padding: 0px;
+    font-size: 1.7em;
+}
+
+#disconnectButton{
+    padding: 0%;
+}
+
+#messages{
+    text-align: center;
+}
+

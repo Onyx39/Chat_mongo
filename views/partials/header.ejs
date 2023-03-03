@@ -2,4 +2,53 @@
     <div id ="headerDiv">
         <h1><a href = "http://localhost:3000/">IDUChat</a></h1>
     </div>
+
+    <div id = "profileDiv">
+        <p id="pseudoP"></p><br/>
+        <button id="disconnectButton" onclick='disconnect()' type="button">Se déconnecter</button>
+    </div>
 </header>
+
+<script>
+    let pseudo = "";
+    
+    function disconnect(){
+        alert("deconnexion");
+        axios.delete("http://localhost:3000/api/session").then(function (response) {
+    
+            alert(response.data);
+            window.location.replace('http://localhost:3000/');
+    }).catch((err) => console.log(err));
+
+    }
+
+    function isConnected(){
+
+    axios.get("http://localhost:3000/api/session").then(async function (response) {
+    
+        buttonDisconnect = document.getElementById('disconnectButton')
+        pseudoDisplay = document.getElementById('pseudoP')
+
+        if (response.data === "ok") {
+
+            axios.get("http://localhost:3000/api/getPseudo").then(function (response){
+            pseudo = JSON.stringify(response.data)
+            pseudo = pseudo.replace(/\"/g, "");
+
+            buttonDisconnect.style.visibility = 'visible';
+            console.log(pseudo)
+            pseudoDisplay.innerHTML = pseudo;
+
+            }).catch((err) => console.log(err));
+            
+        }
+        else { // ne l'est pas
+        buttonDisconnect.style.visibility = 'hidden';
+        }
+
+    }).catch((err) => console.log(err));
+
+    }
+
+    isConnected();
+</script>
