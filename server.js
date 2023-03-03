@@ -138,25 +138,32 @@ app.use(session({
   },
 }));
 
+// Routers uses
+
+app.use("/api", apiRouter)
+app.use("/", viewRouter)
 
 
-/*
 
-const server = new WebSocket.Server({ port: 4420 });
+// Partie WEBSOCKET
 
-server.on('connection', (socket) => {
+const message = require("./controllers/message");
+
+const wsServer = new WebSocket.Server({ port: 4420 });
+
+wsServer.on('connection', async (socket) => {
   console.log('Client connecté');
+  const allMessage = await message.getallMessage();
+  const jsonData = JSON.stringify(allMessage);
+  socket.send(jsonData)
 
   socket.on('message', (message) => {
     console.log(`Message reçu du client : ${message}`);
+    
   });
 
   socket.on('close', () => {
     console.log('Client déconnecté');
   });
-});*/
+});
 
-// Routers uses
-
-app.use("/api", apiRouter)
-app.use("/", viewRouter)

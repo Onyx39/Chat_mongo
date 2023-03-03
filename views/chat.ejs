@@ -13,7 +13,15 @@
     <%- include('partials/header') %>
 
 
-    <p>Chat</p>
+    <div class="mess_box">
+      <div>
+          <label for="mess">Votre message :</label>
+          <input id="mess">
+      </div>
+      <div class="mess_button">
+          <button onclick="" type="button">Envoyer</button>
+      </div>
+    </div>
       
   
     <%- include('partials/footer') %>  
@@ -21,7 +29,49 @@
   </body>
 </html>
 
-<script src="js/client.js"></script>
+<!-- <script src="js/client.js"></script> -->
 
 <script>
+
+const socket = new WebSocket("ws://localhost:4420");
+//const form = document.querySelector("form");
+//const messageInput = document.getElementById("message");
+
+/*
+socket.onopen = function(event) {
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    socket.send(messageInput.value);
+  });
+};*/
+
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log(data);
+};
+
+
+socket.onclose = function(event) {
+  console.log("Connection closed with code: " + event.code);
+};
+
+</script>
+
+<script>
+  function connect() {
+    // On récupère les données de l'utilisateur à créer
+    var pseudo = document.getElementById("pseudo").value;
+    var pass = document.getElementById("pass").value;
+
+    axios.post("http://localhost:3000/api/connect", { pseudo: pseudo, pass: pass}).then(function (response) {
+        
+
+        if (response.data === "ok") {
+            window.location.replace('http://localhost:3000/chat');
+        }
+        else {
+            alert(response.data);
+        }
+    }).catch((err) => console.log(err));
+}
 </script>

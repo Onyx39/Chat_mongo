@@ -1,3 +1,34 @@
 h1{
+
+}
+
+#headerDiv{
+    text-align: center;
+    font-size: 1.5em;
+
+}
+
+#headerDiv a{
+    text-decoration: none;
     color: red;
 }
+
+#headerDiv a:hover{
+    text-shadow: 1px 1px 8px pink;
+}
+
+.form_box{
+    margin: auto;
+    width: 25%;
+    border: 3px solid green;
+    padding: 10px;
+}
+
+.mess_box{
+    margin: auto;
+    width: 30%;
+    border: 3px solid green;
+    padding: 10px;
+    display: flex;
+}
+

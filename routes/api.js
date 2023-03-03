@@ -1,5 +1,6 @@
 const express = require("express")
 const users = require("../controllers/users");
+const message = require("../controllers/message");
 const session = require("../middlewares/session");
 //var {sess} = require('../server.js');
 
@@ -94,6 +95,14 @@ apiRouter.post('/connect', async (req, res) => {
     res.json("Impossible de se connecter !")
   }
 
+})
+
+apiRouter.post('/newMessage', async (req, res) => {
+  res.json(await message.createMessage(req.body));
+});
+
+apiRouter.get('/allMessage', async (req, res) =>{
+  res.json(await message.getallMessage());
 })
 
 

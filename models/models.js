@@ -28,9 +28,27 @@ const UserSchema = new Schema({
     }
 });
 
+const MessageSchema = new Schema({
+    pseudo: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    message: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    createdAt: {
+        type: Schema.Types.Date,
+        default: Date.now
+    }
+});
+
 // On exporte le model
 module.exports = {
 
     // On dit que le Model User est créé à partir du Schema UserSchema et le Model sera stocké dans la base de donnée MongoDB sous le nom "user"
-    User: mongoose.model('user', UserSchema)
+    User: mongoose.model('user', UserSchema),
+    Message: mongoose.model('message', MessageSchema)
 }
